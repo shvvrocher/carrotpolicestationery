@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/riso.css">
   <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/hero-interactive.css">
 </head>
 <body>
 
@@ -22,26 +23,65 @@
     <a href="cart.html" class="btn btn-primary" style="padding:10px 18px;font-size:13px;">🛒</a>
   </nav>
 
-  <!-- ── HERO: full viewport, blobs + CARROT. overlay ── -->
-  <section class="hero">
+  <!-- ── HERO: interactive stamp + investigation ── -->
 
-    <!-- Organic blob shapes — multiply on cream = riso overprint -->
-    <div class="hero-blob blob-orange"></div>
-    <div class="hero-blob blob-blue"></div>
-    <div class="hero-blob blob-pink"></div>
+  <!-- Hidden SVG distortion filter -->
+  <svg style="display:none" aria-hidden="true">
+    <defs>
+      <filter id="distort" x="-30%" y="-30%" width="160%" height="160%">
+        <feTurbulence id="ft" type="turbulence"
+          baseFrequency="0.04" numOctaves="3" seed="5" result="noise"/>
+        <feDisplacementMap id="fdm" in="SourceGraphic" in2="noise"
+          scale="0" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+    </defs>
+  </svg>
 
-    <!-- Central carrot (multiply = integrates into color field) -->
-    <div class="hero-carrot">🥕</div>
+  <!-- Custom cursor (follows mouse via JS) -->
+  <div id="cursor" aria-hidden="true">🥕</div>
 
-    <!-- CARROT. — one line, large, bottom-left -->
-    <div class="hero-wordmark">CARROT.</div>
+  <!-- Toast notification -->
+  <div id="toast" role="status" aria-live="polite"></div>
 
-    <!-- Minimal tagline, bottom-right -->
+  <section class="hero hero-interactive" id="hero">
+
+    <!-- Stamp layer (stamps appended here by JS) -->
+    <div id="stamp-layer"></div>
+
+    <!-- Footprint layer (footprints appended here by JS) -->
+    <div id="footprint-layer"></div>
+
+    <!-- Stamp counter (top-left) -->
+    <div id="stamp-counter"></div>
+
+    <!-- First-visit hint -->
+    <div id="hero-hint">
+      click anywhere to stamp<br>
+      <span style="opacity:0.6;font-size:9px;">double-click to clear</span>
+    </div>
+
+    <!-- Tagline (bottom-right) -->
     <div class="hero-tagline">
       Zootopia · Est. 2025
     </div>
 
+    <!-- Scroll hint -->
     <div class="scroll-hint">↓ Lineup</div>
+
+    <!-- Left slider: SHAPE (distortion) -->
+    <div class="hero-slider hero-slider-left">
+      <label for="shape-slider">SHAPE</label>
+      <input type="range" id="shape-slider" min="0" max="100" value="0">
+    </div>
+
+    <!-- Right slider: SIZE -->
+    <div class="hero-slider hero-slider-right">
+      <label for="size-slider">SIZE</label>
+      <input type="range" id="size-slider" min="20" max="180" value="70">
+    </div>
+
+    <!-- Criminal lineup (bottom-right, filled by JS when caught) -->
+    <div id="criminal-lineup"></div>
 
   </section>
 
@@ -159,6 +199,7 @@
   <script src="js/products.js"></script>
   <script>renderProductCards('carousel-track');</script>
   <script src="js/carousel.js"></script>
+  <script src="js/hero-interactive.js"></script>
 
 </body>
 </html>

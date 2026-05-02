@@ -1,0 +1,232 @@
+/* ── HERO INTERACTIVE — cursor · stamps · footprints · sliders ── */
+
+/* ── 1. CUSTOM CURSOR ──────────────────────────────────────────── */
+.hero-interactive { cursor: none; }
+
+#cursor {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9000;
+  font-size: 28px;
+  line-height: 1;
+  transform: translate(-50%, -50%) rotate(-15deg);
+  transition: transform 0.05s linear;
+  user-select: none;
+}
+
+/* ── 2. HERO STRUCTURE ─────────────────────────────────────────── */
+.hero-interactive {
+  background: var(--paper);
+  overflow: hidden;
+}
+
+#stamp-layer,
+#footprint-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;   /* each child sets its own pointer-events */
+}
+
+#stamp-layer    { z-index: 2; isolation: isolate; }
+#footprint-layer { z-index: 3; }
+
+/* ── 3. STAMP ──────────────────────────────────────────────────── */
+.stamp {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--sz, 80px);
+  height: var(--sz, 80px);
+  font-size: calc(var(--sz, 80px) * 0.82);
+  line-height: 1;
+  border-radius: 50%;
+  background-color: var(--clr, #FF6200);
+  background-image: radial-gradient(circle, rgba(244,237,216,0.32) 24%, transparent 25%);
+  background-size: 9px 9px;
+  transform: translate(-50%, -50%) rotate(var(--rot, 0deg));
+  mix-blend-mode: multiply;
+  opacity: 0.72;
+  pointer-events: none;
+  animation: stamp-pop 0.14s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes stamp-pop {
+  from { transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) scale(0.3); opacity: 0; }
+  to   { transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) scale(1);   opacity: 0.72; }
+}
+
+/* ── 4. INK SPLATTER ───────────────────────────────────────────── */
+.splatter-dot {
+  position: absolute;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  animation: splat 0.45s ease-out forwards;
+}
+
+@keyframes splat {
+  0%   { transform: translate(-50%, -50%) scale(1);   opacity: 0.65; }
+  100% { transform: translate(-50%, -50%) translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+}
+
+/* ── 5. STAMP COUNTER ──────────────────────────────────────────── */
+#stamp-counter {
+  position: absolute;
+  top: 88px;   /* just below nav */
+  left: 4vw;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.25;
+  z-index: 20;
+  user-select: none;
+}
+
+/* ── 6. HINT TEXT ──────────────────────────────────────────────── */
+#hero-hint {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  opacity: 0.22;
+  z-index: 20;
+  pointer-events: none;
+  user-select: none;
+  transition: opacity 0.6s ease;
+  text-align: center;
+  line-height: 2;
+}
+#hero-hint.hidden { opacity: 0; }
+
+/* ── 7. SLIDERS ────────────────────────────────────────────────── */
+.hero-slider {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  z-index: 20;
+}
+.hero-slider-left  { left: 24px; }
+.hero-slider-right { right: 24px; }
+
+.hero-slider label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  opacity: 0.3;
+  user-select: none;
+  writing-mode: horizontal-tb;
+}
+
+.hero-slider input[type="range"] {
+  -webkit-appearance: slider-vertical;
+  appearance: slider-vertical;
+  writing-mode: vertical-lr;
+  direction: rtl;
+  height: 130px;
+  width: 4px;
+  cursor: pointer;
+  accent-color: var(--ink);
+  opacity: 0.35;
+  transition: opacity 0.2s;
+}
+.hero-slider input[type="range"]:hover { opacity: 0.8; }
+
+/* ── 8. FOOTPRINT ──────────────────────────────────────────────── */
+.footprint {
+  position: absolute;
+  font-size: 16px;
+  line-height: 1;
+  pointer-events: none;
+  opacity: 0;
+  user-select: none;
+  animation: footprint-appear 0.3s ease-out forwards;
+}
+
+.footprint.catchable {
+  pointer-events: auto;
+  cursor: none;
+}
+
+@keyframes footprint-appear {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.5) rotate(var(--rot, 0deg)); }
+  to   { opacity: 0.6; transform: translate(-50%, -50%) scale(1)   rotate(var(--rot, 0deg)); }
+}
+
+/* ── 9. CRIMINAL LINEUP ────────────────────────────────────────── */
+#criminal-lineup {
+  position: absolute;
+  bottom: 48px;
+  right: 4vw;
+  z-index: 20;
+  display: flex;
+  gap: 6px;
+  align-items: flex-end;
+}
+
+.silhouette {
+  font-size: 34px;
+  line-height: 1;
+  filter: brightness(0);
+  opacity: 0.8;
+  user-select: none;
+  animation: silhouette-arrive 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes silhouette-arrive {
+  from { transform: translateY(24px) scale(0.5); opacity: 0; }
+  to   { transform: translateY(0)    scale(1);   opacity: 0.8; }
+}
+
+/* ── 10. TOAST NOTIFICATION ────────────────────────────────────── */
+#toast {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 12px 24px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+#toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ── 11. HERO TAGLINE (stays visible) ──────────────────────────── */
+.hero-interactive .hero-tagline {
+  z-index: 20;
+  pointer-events: none;
+}
+.hero-interactive .scroll-hint {
+  z-index: 20;
+  pointer-events: none;
+}
+
+/* ── 12. RESPONSIVE ────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .hero-slider { display: none; }  /* sliders hidden on mobile */
+  #stamp-counter { left: 20px; }
+  #criminal-lineup { right: 20px; bottom: 32px; }
+  .silhouette { font-size: 26px; }
+}
