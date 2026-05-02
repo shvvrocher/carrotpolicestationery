@@ -16,6 +16,22 @@
 
   if (!hero) return;   /* safety: only run on index.html */
 
+  /* ── SVG carrot stamp shape ───────────────────────────────────── */
+  /* Flat 2D graphic style — bold solid shapes, no outlines, no gradients */
+  function carrotSVG(bodyColor) {
+    const leaf = '#6BBF4E';
+    return `<svg viewBox="0 -18 80 108" xmlns="http://www.w3.org/2000/svg">
+      <!-- Body: tapered, broad at top, soft tip at bottom -->
+      <path d="M40,90 C20,70 8,44 12,20 C16,2 28,0 40,0 C52,0 64,2 68,20 C72,44 60,70 40,90Z" fill="${bodyColor}"/>
+      <!-- Left leaf: swept left and up -->
+      <path d="M32,8 C24,-4 4,2 4,10 C10,18 28,16 32,8Z" fill="${leaf}"/>
+      <!-- Center leaf: upright ellipse -->
+      <ellipse cx="40" cy="-5" rx="5" ry="13" fill="${leaf}"/>
+      <!-- Right leaf: swept right and up -->
+      <path d="M48,8 C56,-4 76,2 76,10 C70,18 52,16 48,8Z" fill="${leaf}"/>
+    </svg>`;
+  }
+
   /* ── State ────────────────────────────────────────────────────── */
   const INK_COLORS = ['#FF6200', '#0055BF', '#FF3EB5', '#6BBF4E'];
   let colorIdx     = 0;
@@ -80,17 +96,17 @@
     const color = INK_COLORS[colorIdx % INK_COLORS.length];
     colorIdx++;
 
-    const rot   = (Math.random() * 40 - 20).toFixed(1);
+    const rot   = (Math.random() * 50 - 25).toFixed(1);
     const stamp = document.createElement('div');
     stamp.className = 'stamp';
-    stamp.textContent = '🥕';
+    stamp.innerHTML = carrotSVG(color);
     stamp.style.cssText = [
       `left: ${x}px`,
       `top: ${y}px`,
-      `--sz: ${stampSize}px`,
-      `--clr: ${color}`,
+      `width: ${stampSize}px`,
+      `height: ${stampSize}px`,
       `--rot: ${rot}deg`,
-      distortion > 4 ? 'filter: url(#distort)' : ''
+      distortion > 4 ? `filter: url(#distort)` : ''
     ].filter(Boolean).join('; ');
 
     stampLayer.appendChild(stamp);
