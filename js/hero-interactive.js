@@ -266,8 +266,7 @@
     overlay.innerHTML = `
       <div class="catch-bubble">
         <div class="catch-animal">${criminal.animal}</div>
-        <div class="catch-label">범인 검거!</div>
-        <div class="catch-sub">tap to dismiss · auto-closes</div>
+        <div class="catch-label">Criminal caught.</div>
       </div>`;
     document.body.appendChild(overlay);
 
