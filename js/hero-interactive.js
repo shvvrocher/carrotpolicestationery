@@ -17,18 +17,35 @@
   if (!hero) return;   /* safety: only run on index.html */
 
   /* ── SVG carrot stamp shape ───────────────────────────────────── */
-  /* Flat 2D graphic style — bold solid shapes, no outlines, no gradients */
-  function carrotSVG(bodyColor) {
+  /* distortionScale is baked into each stamp's own SVG filter at creation time
+     so that moving the slider later never changes already-placed stamps. */
+  function carrotSVG(bodyColor, distortionScale) {
     const leaf = '#6BBF4E';
+    const hasDistort = distortionScale > 4;
+    /* Unique filter id per stamp — prevents shared-filter mutation */
+    const fid  = hasDistort ? `df${Date.now().toString(36)}${Math.random().toString(36).slice(2,5)}` : '';
+    const seed = Math.floor(Math.random() * 100);
+
+    const defs = hasDistort ? `
+      <defs>
+        <filter id="${fid}" x="-30%" y="-30%" width="160%" height="160%">
+          <feTurbulence type="turbulence" baseFrequency="0.04" numOctaves="3"
+            seed="${seed}" result="noise"/>
+          <feDisplacementMap in="SourceGraphic" in2="noise"
+            scale="${distortionScale.toFixed(1)}" xChannelSelector="R" yChannelSelector="G"/>
+        </filter>
+      </defs>` : '';
+
+    const gAttr = hasDistort ? `filter="url(#${fid})"` : '';
+
     return `<svg viewBox="0 -18 80 108" xmlns="http://www.w3.org/2000/svg">
-      <!-- Body: tapered, broad at top, soft tip at bottom -->
-      <path d="M40,90 C20,70 8,44 12,20 C16,2 28,0 40,0 C52,0 64,2 68,20 C72,44 60,70 40,90Z" fill="${bodyColor}"/>
-      <!-- Left leaf: swept left and up -->
-      <path d="M32,8 C24,-4 4,2 4,10 C10,18 28,16 32,8Z" fill="${leaf}"/>
-      <!-- Center leaf: upright ellipse -->
-      <ellipse cx="40" cy="-5" rx="5" ry="13" fill="${leaf}"/>
-      <!-- Right leaf: swept right and up -->
-      <path d="M48,8 C56,-4 76,2 76,10 C70,18 52,16 48,8Z" fill="${leaf}"/>
+      ${defs}
+      <g ${gAttr}>
+        <path d="M40,90 C20,70 8,44 12,20 C16,2 28,0 40,0 C52,0 64,2 68,20 C72,44 60,70 40,90Z" fill="${bodyColor}"/>
+        <path d="M32,8 C24,-4 4,2 4,10 C10,18 28,16 32,8Z" fill="${leaf}"/>
+        <ellipse cx="40" cy="-5" rx="5" ry="13" fill="${leaf}"/>
+        <path d="M48,8 C56,-4 76,2 76,10 C70,18 52,16 48,8Z" fill="${leaf}"/>
+      </g>
     </svg>`;
   }
 
@@ -99,15 +116,14 @@
     const rot   = (Math.random() * 50 - 25).toFixed(1);
     const stamp = document.createElement('div');
     stamp.className = 'stamp';
-    stamp.innerHTML = carrotSVG(color);
+    stamp.innerHTML = carrotSVG(color, distortion);   /* distortion baked in */
     stamp.style.cssText = [
       `left: ${x}px`,
       `top: ${y}px`,
       `width: ${stampSize}px`,
       `height: ${stampSize}px`,
-      `--rot: ${rot}deg`,
-      distortion > 4 ? `filter: url(#distort)` : ''
-    ].filter(Boolean).join('; ');
+      `--rot: ${rot}deg`
+    ].join('; ');
 
     stampLayer.appendChild(stamp);
     stampCount++;
@@ -233,15 +249,80 @@
       setTimeout(() => fp.remove(), 450);
     });
 
-    /* Add silhouette to lineup */
-    const sil = document.createElement('div');
-    sil.className = 'silhouette';
-    sil.textContent = criminal.animal;
-    lineup.appendChild(sil);
-
-    showToast('범인 검거! Criminal caught.');
+    showCatchReveal(criminal);
     cursorEl.textContent = '🥕';
     nearCriminal = null;
+  }
+
+  /* ── Catch reveal: center popup → fly silhouette to lineup ───── */
+  function showCatchReveal(criminal) {
+    /* 1. Show centered overlay */
+    const overlay = document.createElement('div');
+    overlay.className = 'catch-reveal';
+    overlay.innerHTML = `
+      <div class="catch-bubble">
+        <div class="catch-animal">${criminal.animal}</div>
+        <div class="catch-label">범인 검거!</div>
+        <div class="catch-sub">Criminal caught.</div>
+      </div>`;
+    document.body.appendChild(overlay);
+
+    /* 2. After 1.8 s: fly the animal to the lineup */
+    setTimeout(() => {
+      const animalEl   = overlay.querySelector('.catch-animal');
+      const animalRect = animalEl.getBoundingClientRect();
+
+      /* Add invisible placeholder so we can measure the target position */
+      const placeholder = document.createElement('div');
+      placeholder.textContent = criminal.animal;
+      placeholder.style.cssText = 'font-size:34px;line-height:1;opacity:0;display:inline-block;filter:brightness(0);';
+      lineup.appendChild(placeholder);
+      const targetRect = placeholder.getBoundingClientRect();
+
+      /* Flying clone — starts exactly on top of the overlay animal */
+      const startX = animalRect.left + animalRect.width  / 2;
+      const startY = animalRect.top  + animalRect.height / 2;
+      const endX   = targetRect.left + targetRect.width  / 2;
+      const endY   = targetRect.top  + targetRect.height / 2;
+      const scale  = targetRect.height / animalRect.height;
+
+      const flier = document.createElement('div');
+      flier.textContent = criminal.animal;
+      flier.style.cssText = [
+        'position:fixed',
+        `left:${startX}px`, `top:${startY}px`,
+        'font-size:80px', 'line-height:1',
+        'filter:brightness(0)',
+        'pointer-events:none', 'z-index:8001',
+        'transform:translate(-50%,-50%) scale(1)',
+        'transform-origin:center center',
+        'will-change:left,top,transform',
+        'transition:left 0.72s cubic-bezier(0.4,0,0.2,1),' +
+          'top 0.72s cubic-bezier(0.4,0,0.2,1),' +
+          'transform 0.72s cubic-bezier(0.4,0,0.2,1)'
+      ].join(';');
+      document.body.appendChild(flier);
+
+      /* Fade out overlay simultaneously */
+      overlay.style.transition = 'opacity 0.35s ease';
+      overlay.style.opacity = '0';
+
+      /* Trigger fly — two rAF to ensure first paint before transition */
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        flier.style.left      = `${endX}px`;
+        flier.style.top       = `${endY}px`;
+        flier.style.transform = `translate(-50%,-50%) scale(${scale})`;
+      }));
+
+      /* When clone arrives: swap placeholder → real silhouette with animation */
+      setTimeout(() => {
+        placeholder.className = 'silhouette';
+        placeholder.style.cssText = '';   /* remove inline — class CSS + animation fires */
+        flier.remove();
+        overlay.remove();
+      }, 800);
+
+    }, 1800);
   }
 
   /* ── Mouse proximity check ────────────────────────────────────── */
