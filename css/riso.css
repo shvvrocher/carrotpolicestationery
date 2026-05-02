@@ -1,0 +1,89 @@
+/* ── RISO / SILKSCREEN EFFECTS (bright version) ─────────
+   Warm grain on cream background.
+   Halftone built into blob backgrounds (see style.css).
+   Overprint via mix-blend-mode: multiply on cream paper.
+   ─────────────────────────────────────────────────────── */
+
+/* ── 1. WARM PAPER GRAIN ─────────────────────────────── */
+/* multiply on cream = darker grain = printed paper feel */
+/* Heavy warm grain — the #1 thing that makes it feel printed, not digital */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.18;  /* much more visible — riso grain is always noticeable */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.76' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  mix-blend-mode: multiply;
+}
+
+/* ── 2. MISREGISTRATION ON DARK TEXT ─────────────────── */
+/* On cream/bright backgrounds — multiply blend */
+.riso-text {
+  position: relative;
+  display: inline-block;
+}
+
+.riso-text::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 0; left: 0;
+  transform: translate(-4px, 3px);
+  color: var(--orange);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  clip-path: polygon(0 0, 100% 0, 100% 48%, 0 48%);
+  opacity: 0.85;
+}
+
+.riso-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0; left: 0;
+  transform: translate(4px, -3px);
+  color: var(--blue);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  clip-path: polygon(0 52%, 100% 52%, 100% 100%, 0 100%);
+  opacity: 0.7;
+}
+
+/* ── 3. OVERPRINT UTILITY ────────────────────────────── */
+.overprint { mix-blend-mode: multiply; }
+
+/* ── 4. HALFTONE UTILITIES ───────────────────────────── */
+/* Used on section backgrounds and cards — cream dots on vivid */
+.halftone-sm {
+  background-image: radial-gradient(circle, rgba(244,237,216,0.25) 26%, transparent 27%);
+  background-size: 6px 6px;
+}
+
+.halftone-md {
+  background-image: radial-gradient(circle, rgba(244,237,216,0.22) 26%, transparent 27%);
+  background-size: 9px 9px;
+}
+
+.halftone-lg {
+  background-image: radial-gradient(circle, rgba(244,237,216,0.20) 28%, transparent 29%);
+  background-size: 13px 13px;
+}
+
+/* Dark dots on light/cream backgrounds (for card accents) */
+.halftone-dark {
+  background-image: radial-gradient(circle, rgba(24,16,10,0.12) 26%, transparent 27%);
+  background-size: 7px 7px;
+}
+
+/* ── 5. COLOR FILLS ──────────────────────────────────── */
+.fill-orange { background-color: var(--orange); }
+.fill-blue   { background-color: var(--blue);   }
+.fill-pink   { background-color: var(--pink);   }
+.fill-lime   { background-color: var(--lime);   }
+.fill-yellow { background-color: var(--yellow); }
+.fill-paper  { background-color: var(--paper);  }
+
+.text-orange { color: var(--orange); }
+.text-blue   { color: var(--blue);   }
+.text-pink   { color: var(--pink);   }

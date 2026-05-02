@@ -1,0 +1,247 @@
+/* ── COMPONENTS (bright riso / cream palette) ───────────
+   Cards, bubbles, size selector — all on cream background.
+   Vivid color blocks with halftone dots = risograph print.
+   ─────────────────────────────────────────────────────── */
+
+/* ── PRODUCT CARD ────────────────────────────────────── */
+.product-card {
+  flex: 0 0 360px;   /* wider cards — fill more of the conveyor */
+  scroll-snap-align: start;
+  text-decoration: none;
+  color: var(--ink);
+  display: block;
+  transition: transform 0.2s;
+  overflow: hidden;
+  background: var(--paper);
+  border: 1.5px solid rgba(24,16,10,0.12);
+  position: relative;
+}
+
+/* Offset shadow — riso misregistration */
+.product-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1.5px solid rgba(24,16,10,0.12);
+  transform: translate(5px, 5px);
+  z-index: -1;
+  transition: transform 0.2s;
+}
+
+.product-card:hover { transform: translate(-2px, -2px); }
+.product-card:hover::after { transform: translate(7px, 7px); }
+
+/* Vivid color top section — carrot / police colors */
+.product-card-visual {
+  height: 340px;   /* taller visual area */
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  isolation: isolate;
+}
+
+/* Halftone dots built into background-image (set inline on card) */
+.card-carrot {
+  font-size: 88px;
+  position: relative;
+  z-index: 2;
+  mix-blend-mode: multiply;
+  line-height: 1;
+  transform: rotate(-8deg);
+  user-select: none;
+}
+
+/* Ghost — slight offset for misregistration */
+.card-carrot-ghost {
+  position: absolute;
+  font-size: 88px;
+  z-index: 1;
+  mix-blend-mode: multiply;
+  line-height: 1;
+  transform: rotate(-8deg) translate(6px, -5px);
+  opacity: 0.3;
+  user-select: none;
+  filter: saturate(0) contrast(0.7);
+}
+
+.product-card-body {
+  padding: 16px 18px 20px;
+  border-top: 1.5px solid rgba(24,16,10,0.10);
+  background: var(--paper);
+}
+
+.product-card-name {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+  color: var(--ink);
+}
+
+.product-card-tagline {
+  font-size: 11px;
+  opacity: 0.4;
+  letter-spacing: 0.03em;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.size-badges { display: flex; gap: 5px; }
+
+.size-badge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 3px 8px;
+  border: 1.5px solid rgba(24,16,10,0.18);
+  color: rgba(24,16,10,0.4);
+}
+
+/* ── SPEECH BUBBLE (riso — flat block + offset layer) ── */
+.speech-bubble {
+  position: relative;
+  padding: 18px 22px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.65;
+  display: inline-block;
+  isolation: isolate;
+}
+
+/* Offset misregistration shadow */
+.speech-bubble::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translate(5px, 5px);
+  z-index: -1;
+  mix-blend-mode: multiply;
+  opacity: 0.65;
+}
+
+.bubble-tail {
+  width: 0; height: 0;
+  border-style: solid;
+  border-width: 14px 12px 0 0;
+  border-right-color: transparent;
+  display: block;
+}
+
+/* Orange bubble (primary) */
+.speech-bubble-orange          { background: var(--orange); color: var(--paper); }
+.speech-bubble-orange::before  { background: var(--blue); }
+.speech-bubble-orange + .bubble-tail { border-top-color: var(--orange); }
+
+/* Blue bubble */
+.speech-bubble-blue            { background: var(--blue);   color: var(--paper); }
+.speech-bubble-blue::before    { background: var(--orange); }
+.speech-bubble-blue + .bubble-tail { border-top-color: var(--blue); }
+
+/* Pink bubble */
+.speech-bubble-pink            { background: var(--pink);   color: var(--paper); }
+.speech-bubble-pink::before    { background: var(--blue); }
+.speech-bubble-pink + .bubble-tail { border-top-color: var(--pink); }
+
+/* Yellow bubble */
+.speech-bubble-yellow          { background: var(--yellow); color: var(--ink); }
+.speech-bubble-yellow::before  { background: var(--orange); }
+.speech-bubble-yellow + .bubble-tail { border-top-color: var(--yellow); }
+
+/* ── SIZE SELECTOR ───────────────────────────────────── */
+.size-selector { display: flex; }
+
+.size-btn {
+  flex: 1;
+  padding: 18px 8px;
+  background: transparent;
+  border: 1.5px solid rgba(24,16,10,0.18);
+  margin-left: -1.5px;
+  font-family: var(--font);
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  cursor: pointer;
+  transition: all 0.15s;
+  color: var(--ink);
+}
+
+.size-btn:first-child  { margin-left: 0; }
+.size-btn.active       { background: var(--orange); color: var(--paper); border-color: var(--orange); z-index: 1; }
+.size-btn:hover:not(.active) { background: rgba(24,16,10,0.05); z-index: 1; }
+
+.size-info {
+  padding: 22px;
+  background: rgba(24,16,10,0.03);
+  border: 1.5px solid rgba(24,16,10,0.10);
+  margin-top: -1.5px;
+  min-height: 90px;
+}
+
+.size-info-title {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 6px;
+}
+
+.size-info-desc {
+  font-size: 13px;
+  line-height: 1.65;
+  opacity: 0.5;
+}
+
+.size-info-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  background: var(--orange);
+  color: var(--paper);
+  margin-top: 10px;
+}
+
+/* ── DUAL FUNCTION DISPLAY ───────────────────────────── */
+.dual-display {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1.5px solid rgba(24,16,10,0.12);
+  margin: var(--gap-md) 0;
+}
+
+.dual-item { padding: 24px; }
+
+.dual-item + .dual-item {
+  border-left: 1.5px solid rgba(24,16,10,0.12);
+  background: rgba(24,16,10,0.02);
+}
+
+.dual-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 10px;
+}
+
+.dual-item-equipment .dual-label { color: var(--blue); }
+
+.dual-desc {
+  font-size: 14px;
+  line-height: 1.65;
+  opacity: 0.6;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────── */
+@media (max-width: 768px) {
+  .product-card { flex: 0 0 250px; }
+  .dual-display  { grid-template-columns: 1fr; }
+  .dual-item + .dual-item {
+    border-left: none;
+    border-top: 1.5px solid rgba(24,16,10,0.12);
+  }
+}

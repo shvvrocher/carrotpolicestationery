@@ -1,0 +1,434 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,700;0,900;1,700&display=swap');
+
+:root {
+  /* Riso ink colors — vivid, like freshly printed risograph */
+  --orange: #FF6200;   /* fluorescent orange — carrot vivid */
+  --blue:   #0055BF;   /* police blue — bright, punchy */
+  --pink:   #FF3EB5;   /* fluorescent pink — hot pink */
+  --lime:   #6BBF4E;   /* bright grass green */
+  --yellow: #FFD400;   /* bright riso yellow */
+  /* Surface */
+  --paper:  #F4EDD8;   /* warm cream — printed paper */
+  --ink:    #1C1208;   /* warm near-black */
+
+  /* Helvetica-feel system stack — Inter as web fallback */
+  --font: 'Helvetica Neue', Helvetica, 'Inter', Arial, sans-serif;
+
+  --gap-sm: 16px;
+  --gap-md: 32px;
+  --gap-lg: 64px;
+  --gap-xl: 96px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font);
+  overflow-x: hidden;
+}
+
+/* ── NAV ─────────────────────────────────────────────── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 40px;
+  /* semi-transparent cream so blobs show through faintly */
+  background: rgba(244, 237, 216, 0.88);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-bottom: 1.5px solid rgba(24,16,10,0.10);
+}
+
+.nav-logo {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.nav-links {
+  display: flex;
+  gap: var(--gap-md);
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ink);
+  opacity: 0.45;
+  transition: opacity 0.2s;
+}
+.nav-links a:hover { opacity: 1; }
+
+/* ── HERO (full viewport, blobs fill screen) ─────────── */
+.hero {
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: var(--paper);
+  isolation: isolate;
+}
+
+/* Organic blob shapes — multiply on cream = real riso overprint */
+.hero-blob {
+  position: absolute;
+}
+
+/* Orange blob — irregular, NOT a rectangle or circle */
+.blob-orange {
+  width: 72vw; height: 80vh;
+  background-color: var(--orange);
+  background-image: radial-gradient(circle, rgba(240,232,202,0.28) 24%, transparent 25%);
+  background-size: 9px 9px;
+  top: -18%; left: -10%;
+  transform: rotate(-16deg);
+  /* Very irregular — no axis of symmetry */
+  border-radius: 68% 32% 74% 26% / 42% 58% 36% 64%;
+  opacity: 0.90;
+}
+
+/* Blue blob — different irregular shape */
+.blob-blue {
+  width: 60vw; height: 70vh;
+  background-color: var(--blue);
+  background-image: radial-gradient(circle, rgba(240,232,202,0.24) 24%, transparent 25%);
+  background-size: 11px 11px;
+  top: 12%; right: -12%;
+  transform: rotate(13deg) skewX(-4deg);
+  mix-blend-mode: multiply;
+  border-radius: 32% 68% 25% 75% / 65% 30% 72% 35%;
+  opacity: 0.88;
+}
+
+/* Pink/accent blob — smallest, most irregular */
+.blob-pink {
+  width: 44vw; height: 50vh;
+  background-color: var(--pink);
+  background-image: radial-gradient(circle, rgba(240,232,202,0.26) 24%, transparent 25%);
+  background-size: 8px 8px;
+  bottom: -14%; left: 16%;
+  transform: rotate(-8deg) skewY(3deg);
+  mix-blend-mode: multiply;
+  border-radius: 52% 48% 28% 72% / 70% 26% 68% 32%;
+  opacity: 0.85;
+}
+
+/* Central carrot — multiply to integrate with blobs */
+.hero-carrot {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) rotate(-8deg);
+  font-size: clamp(120px, 18vw, 240px);
+  z-index: 5;
+  mix-blend-mode: multiply;
+  line-height: 1;
+  user-select: none;
+}
+
+/* "CARROT." — one line, bottom-left, large */
+.hero-wordmark {
+  position: absolute;
+  bottom: 7vh;
+  left: 4vw;
+  font-size: clamp(56px, 9.5vw, 140px);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--ink);
+  mix-blend-mode: multiply;
+  z-index: 10;
+}
+
+.hero-tagline {
+  position: absolute;
+  bottom: 9vh;
+  right: 4vw;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.45;
+  z-index: 10;
+  text-align: right;
+  line-height: 1.6;
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 3vh;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.28;
+  z-index: 10;
+}
+
+/* ── 4-COLOR STRIP ───────────────────────────────────── */
+.color-strip {
+  height: 5px;
+  background: linear-gradient(
+    to right,
+    var(--orange) 0%   30%,
+    var(--blue)   30%  60%,
+    var(--pink)   60%  80%,
+    var(--lime)   80% 100%
+  );
+}
+
+/* ── SECTION BASE ────────────────────────────────────── */
+.section {
+  padding: var(--gap-xl) var(--gap-lg);
+}
+
+.section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  opacity: 0.35;
+  margin-bottom: var(--gap-sm);
+}
+
+.section-title {
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  line-height: 1.0;
+  margin-bottom: var(--gap-lg);
+  color: var(--ink);
+}
+
+/* ── PRODUCTS — conveyor belt (no buttons) ───────────── */
+.products-section {
+  background: var(--paper);
+  padding: var(--gap-xl) 0 var(--gap-xl) 0;
+  overflow: hidden;
+}
+
+/* Outer clip — hides overflow */
+.carousel-container {
+  overflow: hidden;
+  position: relative;
+  /* Fade edges for smooth entry/exit */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%, black 6%,
+    black 94%, transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%, black 6%,
+    black 94%, transparent 100%
+  );
+}
+
+/* Inner strip — animates continuously */
+.carousel-track {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+  padding: 8px 0 12px;
+  /* Conveyor belt: slow, seamless, infinite */
+  animation: conveyor 38s linear infinite;
+}
+
+/* Pause on hover */
+.carousel-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes conveyor {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); } /* -50% because cards are doubled */
+}
+
+/* ── PHILOSOPHY / BRAND ──────────────────────────────── */
+.philosophy {
+  background: var(--paper);
+  padding: var(--gap-xl) var(--gap-lg);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Big decorative blob behind philosophy text */
+.philosophy-blob {
+  position: absolute;
+  pointer-events: none;
+}
+
+.philosophy-blob-1 {
+  width: 52vw; height: 62vh;
+  background-color: var(--orange);
+  background-image: radial-gradient(circle, rgba(240,232,202,0.26) 24%, transparent 25%);
+  background-size: 10px 10px;
+  /* Irregular — not matching any standard shape */
+  border-radius: 72% 28% 60% 40% / 38% 62% 42% 58%;
+  right: -18%; top: -22%;
+  transform: rotate(18deg) skewX(-3deg);
+  mix-blend-mode: multiply;
+  opacity: 0.55;
+}
+
+.philosophy-blob-2 {
+  width: 36vw; height: 46vh;
+  background-color: var(--blue);
+  background-image: radial-gradient(circle, rgba(240,232,202,0.24) 24%, transparent 25%);
+  background-size: 9px 9px;
+  border-radius: 28% 72% 35% 65% / 62% 38% 58% 42%;
+  right: 3%; bottom: -12%;
+  transform: rotate(-10deg) skewY(4deg);
+  mix-blend-mode: multiply;
+  opacity: 0.58;
+}
+
+.philosophy-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gap-lg);
+  position: relative;
+  z-index: 2;
+}
+
+.phil-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  opacity: 0.35;
+  margin-bottom: var(--gap-sm);
+}
+
+.phil-title {
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin-bottom: var(--gap-md);
+}
+
+.phil-body {
+  font-size: 15px;
+  line-height: 1.75;
+  opacity: 0.55;
+  max-width: 340px;
+}
+
+/* ── SIZE GUIDE ──────────────────────────────────────── */
+.size-section {
+  background: var(--paper);
+  padding: var(--gap-xl) var(--gap-lg);
+}
+
+.size-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: var(--gap-lg);
+}
+
+.size-card {
+  position: relative;
+  min-height: 320px;
+  padding: var(--gap-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  isolation: isolate;
+}
+
+/* Blob shape inside each size card */
+.size-card-blob {
+  position: absolute;
+  top: -20%; left: -10%;
+  width: 120%; height: 80%;
+  border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
+  pointer-events: none;
+}
+
+.size-card-letter {
+  font-size: 110px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: var(--paper);
+  position: absolute;
+  top: 16px; left: 20px;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.size-card-desc {
+  font-size: 13px;
+  line-height: 1.65;
+  position: relative;
+  z-index: 2;
+}
+
+/* ── BUTTONS ─────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 26px;
+  font-family: var(--font);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s;
+}
+
+.btn-primary       { background: var(--ink);    color: var(--paper); }
+.btn-primary:hover { background: var(--orange); color: var(--paper); }
+.btn-outline       { background: transparent;   color: var(--ink); border: 1.5px solid rgba(24,16,10,0.25); }
+.btn-outline:hover { border-color: var(--ink); }
+
+/* ── FOOTER ──────────────────────────────────────────── */
+footer {
+  padding: var(--gap-md) var(--gap-lg);
+  border-top: 1.5px solid rgba(24,16,10,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  opacity: 0.35;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────── */
+@media (max-width: 768px) {
+  .nav { padding: 14px 20px; }
+  .nav-links { display: none; }
+
+  .hero-wordmark { font-size: clamp(48px, 12vw, 80px); bottom: 5vh; }
+  .hero-tagline { display: none; }
+
+  .section { padding: var(--gap-lg) var(--gap-md); }
+  .products-section { padding: var(--gap-lg) 0 var(--gap-lg) var(--gap-md); }
+  .philosophy { padding: var(--gap-lg) var(--gap-md); }
+  .philosophy-grid { grid-template-columns: 1fr; gap: var(--gap-lg); }
+  .size-section { padding: var(--gap-lg) var(--gap-md); }
+  .size-grid { grid-template-columns: 1fr; }
+
+  footer { flex-direction: column; gap: 6px; text-align: center; }
+}

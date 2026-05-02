@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CARROT. — ZPD Official Stationery</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/riso.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+  <!-- ── NAV ────────────────────────────────────────── -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">CARROT.</a>
+    <ul class="nav-links">
+      <li><a href="#lineup">Lineup</a></li>
+      <li><a href="#brand">Brand</a></li>
+      <li><a href="#sizes">Sizes</a></li>
+    </ul>
+    <a href="cart.html" class="btn btn-primary" style="padding:10px 18px;font-size:13px;">🛒</a>
+  </nav>
+
+  <!-- ── HERO: full viewport, blobs + CARROT. overlay ── -->
+  <section class="hero">
+
+    <!-- Organic blob shapes — multiply on cream = riso overprint -->
+    <div class="hero-blob blob-orange"></div>
+    <div class="hero-blob blob-blue"></div>
+    <div class="hero-blob blob-pink"></div>
+
+    <!-- Central carrot (multiply = integrates into color field) -->
+    <div class="hero-carrot">🥕</div>
+
+    <!-- CARROT. — one line, large, bottom-left -->
+    <div class="hero-wordmark">CARROT.</div>
+
+    <!-- Minimal tagline, bottom-right -->
+    <div class="hero-tagline">
+      Zootopia · Est. 2025
+    </div>
+
+    <div class="scroll-hint">↓ Lineup</div>
+
+  </section>
+
+  <!-- ── 4-COLOR STRIP ──────────────────────────────── -->
+  <div class="color-strip"></div>
+
+  <!-- ── LINEUP ─────────────────────────────────────── -->
+  <section class="products-section" id="lineup">
+    <div style="padding:0 var(--gap-lg) var(--gap-lg);">
+      <div class="section-label">Product Lineup</div>
+      <h2 class="section-title">04 Items.<br>08 Functions.</h2>
+    </div>
+
+    <!-- Conveyor belt — no buttons, auto-scrolls continuously -->
+    <div class="carousel-container">
+      <div class="carousel-track" id="carousel-track">
+        <!-- rendered by products.js — cards doubled for seamless loop -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ── BRAND / PHILOSOPHY ─────────────────────────── -->
+  <div class="color-strip"></div>
+  <section class="philosophy" id="brand">
+
+    <!-- Decorative blobs in background -->
+    <div class="philosophy-blob philosophy-blob-1"></div>
+    <div class="philosophy-blob philosophy-blob-2"></div>
+
+    <div class="section-label" style="position:relative;z-index:2;">Brand Philosophy</div>
+
+    <div class="philosophy-grid">
+
+      <div>
+        <h2 class="phil-title">Andy Warhol<br>would approve.</h2>
+        <p class="phil-body">
+          A society where even police must hide their equipment.
+          Safety commodified. Printed in vivid orange and blue —
+          because the truth deserves good design.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="phil-title">The dilemma<br>is the product.</h2>
+        <p class="phil-body" style="margin-bottom:var(--gap-lg);">
+          Undercover but instantly accessible.
+          Invisible but always ready.
+          CARROT. makes the paradox physical.
+        </p>
+
+        <!-- Riso speech bubble -->
+        <div class="speech-bubble speech-bubble-orange" style="max-width:380px;">
+          "Stationery by day. Equipment when needed.<br>
+          No switching required — it was always both."
+        </div>
+        <div class="bubble-tail" style="border-top-color:var(--orange);"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── SIZE GUIDE ─────────────────────────────────── -->
+  <div class="color-strip"></div>
+  <section class="size-section" id="sizes">
+    <div class="section-label">Size Guide</div>
+    <h2 class="section-title">Like clothing.<br>Pick your size.</h2>
+    <p style="font-size:14px;opacity:0.45;max-width:380px;margin-bottom:var(--gap-lg);line-height:1.7;margin-top:calc(var(--gap-lg) * -0.5);">
+      Every CARROT product ships in S / M / L.
+      From rabbit to rhinoceros — every officer covered.
+    </p>
+
+    <div class="size-grid">
+
+      <div class="size-card" style="background:var(--orange);">
+        <div class="size-card-blob" style="background:rgba(0,0,0,0.12);"></div>
+        <div class="size-card-letter">S</div>
+        <div class="size-card-desc" style="color:var(--paper);">
+          Small mammals.<br>
+          Rabbits, foxes, mice.<br>
+          Fits any document pocket.
+        </div>
+      </div>
+
+      <div class="size-card" style="background:var(--blue);">
+        <div class="size-card-blob" style="background:rgba(0,0,0,0.15);border-radius:40% 60% 45% 55%/55% 45% 60% 40%;"></div>
+        <div class="size-card-letter">M</div>
+        <div class="size-card-desc" style="color:var(--paper);">
+          Standard build.<br>
+          Most officers.<br>
+          Passes unnoticed anywhere.
+        </div>
+      </div>
+
+      <div class="size-card" style="background:var(--pink);">
+        <div class="size-card-blob" style="background:rgba(0,0,0,0.12);border-radius:55% 45% 50% 50%/40% 60% 55% 45%;"></div>
+        <div class="size-card-letter">L</div>
+        <div class="size-card-desc" style="color:var(--paper);">
+          Large mammals.<br>
+          Bears, rhinos, buffalos.<br>
+          Maximum capacity.
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── FOOTER ─────────────────────────────────────── -->
+  <div class="color-strip"></div>
+  <footer>
+    <span>© 2025 CARROT.</span>
+    <span>Stationery by day. Equipment when needed.</span>
+    <span>Zootopia · Est. 2025</span>
+  </footer>
+
+  <script src="js/products.js"></script>
+  <script>renderProductCards('carousel-track');</script>
+  <script src="js/carousel.js"></script>
+
+</body>
+</html>
