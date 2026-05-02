@@ -15,12 +15,7 @@
   <!-- ── NAV ────────────────────────────────────────── -->
   <nav class="nav">
     <a href="index.html" class="nav-logo">CARROT.</a>
-    <ul class="nav-links">
-      <li><a href="#lineup">Lineup</a></li>
-      <li><a href="#brand">Brand</a></li>
-      <li><a href="#sizes">Sizes</a></li>
-    </ul>
-    <a href="cart.html" class="btn btn-primary" style="padding:10px 18px;font-size:13px;">🛒</a>
+    <a href="cart.html" class="nav-cart">🛒</a>
   </nav>
 
   <!-- ── HERO: interactive stamp + investigation ── -->
@@ -51,8 +46,9 @@
     <!-- Footprint layer (footprints appended here by JS) -->
     <div id="footprint-layer"></div>
 
-    <!-- Stamp counter (top-left) -->
+    <!-- Stamp counter (top-left) / Criminal counter (top-right) -->
     <div id="stamp-counter"></div>
+    <div id="criminal-counter"></div>
 
     <!-- First-visit hint -->
     <div id="hero-hint">
@@ -103,90 +99,6 @@
     </div>
   </section>
 
-  <!-- ── BRAND / PHILOSOPHY ─────────────────────────── -->
-  <div class="color-strip"></div>
-  <section class="philosophy" id="brand">
-
-    <!-- Decorative blobs in background -->
-    <div class="philosophy-blob philosophy-blob-1"></div>
-    <div class="philosophy-blob philosophy-blob-2"></div>
-
-    <div class="section-label" style="position:relative;z-index:2;">Brand Philosophy</div>
-
-    <div class="philosophy-grid">
-
-      <div>
-        <h2 class="phil-title">Andy Warhol<br>would approve.</h2>
-        <p class="phil-body">
-          A society where even police must hide their equipment.
-          Safety commodified. Printed in vivid orange and blue —
-          because the truth deserves good design.
-        </p>
-      </div>
-
-      <div>
-        <h2 class="phil-title">The dilemma<br>is the product.</h2>
-        <p class="phil-body" style="margin-bottom:var(--gap-lg);">
-          Undercover but instantly accessible.
-          Invisible but always ready.
-          CARROT. makes the paradox physical.
-        </p>
-
-        <!-- Riso speech bubble -->
-        <div class="speech-bubble speech-bubble-orange" style="max-width:380px;">
-          "Stationery by day. Equipment when needed.<br>
-          No switching required — it was always both."
-        </div>
-        <div class="bubble-tail" style="border-top-color:var(--orange);"></div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ── SIZE GUIDE ─────────────────────────────────── -->
-  <div class="color-strip"></div>
-  <section class="size-section" id="sizes">
-    <div class="section-label">Size Guide</div>
-    <h2 class="section-title">Like clothing.<br>Pick your size.</h2>
-    <p style="font-size:14px;opacity:0.45;max-width:380px;margin-bottom:var(--gap-lg);line-height:1.7;margin-top:calc(var(--gap-lg) * -0.5);">
-      Every CARROT product ships in S / M / L.
-      From rabbit to rhinoceros — every officer covered.
-    </p>
-
-    <div class="size-grid">
-
-      <div class="size-card" style="background:var(--orange);">
-        <div class="size-card-blob" style="background:rgba(0,0,0,0.12);"></div>
-        <div class="size-card-letter">S</div>
-        <div class="size-card-desc" style="color:var(--paper);">
-          Small mammals.<br>
-          Rabbits, foxes, mice.<br>
-          Fits any document pocket.
-        </div>
-      </div>
-
-      <div class="size-card" style="background:var(--blue);">
-        <div class="size-card-blob" style="background:rgba(0,0,0,0.15);border-radius:40% 60% 45% 55%/55% 45% 60% 40%;"></div>
-        <div class="size-card-letter">M</div>
-        <div class="size-card-desc" style="color:var(--paper);">
-          Standard build.<br>
-          Most officers.<br>
-          Passes unnoticed anywhere.
-        </div>
-      </div>
-
-      <div class="size-card" style="background:var(--pink);">
-        <div class="size-card-blob" style="background:rgba(0,0,0,0.12);border-radius:55% 45% 50% 50%/40% 60% 55% 45%;"></div>
-        <div class="size-card-letter">L</div>
-        <div class="size-card-desc" style="color:var(--paper);">
-          Large mammals.<br>
-          Bears, rhinos, buffalos.<br>
-          Maximum capacity.
-        </div>
-      </div>
-
-    </div>
-  </section>
 
   <!-- ── FOOTER ─────────────────────────────────────── -->
   <div class="color-strip"></div>

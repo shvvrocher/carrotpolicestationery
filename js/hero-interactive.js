@@ -9,6 +9,7 @@
   const cursorEl     = document.getElementById('cursor');
   const hintEl       = document.getElementById('hero-hint');
   const counterEl    = document.getElementById('stamp-counter');
+  const caughtEl     = document.getElementById('criminal-counter');
   const toast        = document.getElementById('toast');
   const sizeSlider   = document.getElementById('size-slider');
   const shapeSlider  = document.getElementById('shape-slider');
@@ -53,6 +54,7 @@
   const INK_COLORS = ['#FF6200', '#0055BF', '#FF3EB5', '#6BBF4E'];
   let colorIdx     = 0;
   let stampCount   = 0;
+  let caughtCount  = 0;
   let stampSize    = parseInt(sizeSlider.value, 10);  /* px */
   let distortion   = 0;
   let firstClick   = true;
@@ -249,6 +251,9 @@
       setTimeout(() => fp.remove(), 450);
     });
 
+    caughtCount++;
+    if (caughtEl) caughtEl.textContent = `× ${caughtCount}`;
+
     showCatchReveal(criminal);
     cursorEl.textContent = '🥕';
     nearCriminal = null;
@@ -256,73 +261,79 @@
 
   /* ── Catch reveal: center popup → fly silhouette to lineup ───── */
   function showCatchReveal(criminal) {
-    /* 1. Show centered overlay */
     const overlay = document.createElement('div');
     overlay.className = 'catch-reveal';
     overlay.innerHTML = `
       <div class="catch-bubble">
         <div class="catch-animal">${criminal.animal}</div>
         <div class="catch-label">범인 검거!</div>
-        <div class="catch-sub">Criminal caught.</div>
+        <div class="catch-sub">tap to dismiss · auto-closes</div>
       </div>`;
     document.body.appendChild(overlay);
 
-    /* 2. After 1.8 s: fly the animal to the lineup */
+    /* Shared fly function — called by timer OR by tap */
+    let fired = false;
+    function triggerFly() {
+      if (fired) return;
+      fired = true;
+      clearTimeout(flyTimer);
+      overlay.removeEventListener('click', triggerFly);
+      flyToLineup(overlay, criminal);
+    }
+
+    overlay.addEventListener('click', triggerFly);
+    const flyTimer = setTimeout(triggerFly, 1800);
+  }
+
+  function flyToLineup(overlay, criminal) {
+    const animalEl   = overlay.querySelector('.catch-animal');
+    const animalRect = animalEl.getBoundingClientRect();
+
+    /* Invisible placeholder in lineup to measure target position */
+    const placeholder = document.createElement('div');
+    placeholder.textContent = criminal.animal;
+    placeholder.style.cssText = 'font-size:34px;line-height:1;opacity:0;display:inline-block;filter:brightness(0);';
+    lineup.appendChild(placeholder);
+    const targetRect = placeholder.getBoundingClientRect();
+
+    const startX = animalRect.left + animalRect.width  / 2;
+    const startY = animalRect.top  + animalRect.height / 2;
+    const endX   = targetRect.left + targetRect.width  / 2;
+    const endY   = targetRect.top  + targetRect.height / 2;
+    const scale  = targetRect.height / animalRect.height;
+
+    const flier = document.createElement('div');
+    flier.textContent = criminal.animal;
+    flier.style.cssText = [
+      'position:fixed',
+      `left:${startX}px`, `top:${startY}px`,
+      'font-size:80px', 'line-height:1',
+      'filter:brightness(0)',
+      'pointer-events:none', 'z-index:8001',
+      'transform:translate(-50%,-50%) scale(1)',
+      'transform-origin:center center',
+      'will-change:left,top,transform',
+      'transition:left 0.72s cubic-bezier(0.4,0,0.2,1),' +
+        'top 0.72s cubic-bezier(0.4,0,0.2,1),' +
+        'transform 0.72s cubic-bezier(0.4,0,0.2,1)'
+    ].join(';');
+    document.body.appendChild(flier);
+
+    overlay.style.transition = 'opacity 0.3s ease';
+    overlay.style.opacity = '0';
+
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      flier.style.left      = `${endX}px`;
+      flier.style.top       = `${endY}px`;
+      flier.style.transform = `translate(-50%,-50%) scale(${scale})`;
+    }));
+
     setTimeout(() => {
-      const animalEl   = overlay.querySelector('.catch-animal');
-      const animalRect = animalEl.getBoundingClientRect();
-
-      /* Add invisible placeholder so we can measure the target position */
-      const placeholder = document.createElement('div');
-      placeholder.textContent = criminal.animal;
-      placeholder.style.cssText = 'font-size:34px;line-height:1;opacity:0;display:inline-block;filter:brightness(0);';
-      lineup.appendChild(placeholder);
-      const targetRect = placeholder.getBoundingClientRect();
-
-      /* Flying clone — starts exactly on top of the overlay animal */
-      const startX = animalRect.left + animalRect.width  / 2;
-      const startY = animalRect.top  + animalRect.height / 2;
-      const endX   = targetRect.left + targetRect.width  / 2;
-      const endY   = targetRect.top  + targetRect.height / 2;
-      const scale  = targetRect.height / animalRect.height;
-
-      const flier = document.createElement('div');
-      flier.textContent = criminal.animal;
-      flier.style.cssText = [
-        'position:fixed',
-        `left:${startX}px`, `top:${startY}px`,
-        'font-size:80px', 'line-height:1',
-        'filter:brightness(0)',
-        'pointer-events:none', 'z-index:8001',
-        'transform:translate(-50%,-50%) scale(1)',
-        'transform-origin:center center',
-        'will-change:left,top,transform',
-        'transition:left 0.72s cubic-bezier(0.4,0,0.2,1),' +
-          'top 0.72s cubic-bezier(0.4,0,0.2,1),' +
-          'transform 0.72s cubic-bezier(0.4,0,0.2,1)'
-      ].join(';');
-      document.body.appendChild(flier);
-
-      /* Fade out overlay simultaneously */
-      overlay.style.transition = 'opacity 0.35s ease';
-      overlay.style.opacity = '0';
-
-      /* Trigger fly — two rAF to ensure first paint before transition */
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        flier.style.left      = `${endX}px`;
-        flier.style.top       = `${endY}px`;
-        flier.style.transform = `translate(-50%,-50%) scale(${scale})`;
-      }));
-
-      /* When clone arrives: swap placeholder → real silhouette with animation */
-      setTimeout(() => {
-        placeholder.className = 'silhouette';
-        placeholder.style.cssText = '';   /* remove inline — class CSS + animation fires */
-        flier.remove();
-        overlay.remove();
-      }, 800);
-
-    }, 1800);
+      placeholder.className  = 'silhouette';
+      placeholder.style.cssText = '';
+      flier.remove();
+      overlay.remove();
+    }, 800);
   }
 
   /* ── Mouse proximity check ────────────────────────────────────── */

@@ -72,6 +72,16 @@ body {
 }
 .nav-links a:hover { opacity: 1; }
 
+.nav-cart {
+  font-size: 16px;
+  text-decoration: none;
+  color: var(--ink);
+  opacity: 0.45;
+  transition: opacity 0.2s;
+  line-height: 1;
+}
+.nav-cart:hover { opacity: 1; }
+
 /* ── HERO (full viewport, blobs fill screen) ─────────── */
 .hero {
   height: 100vh;
