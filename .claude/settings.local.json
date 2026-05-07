@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git init *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git commit -m 'Add cart page, brighten riso colors, clean up brand copy *)",
+      "Bash(git commit -m 'Add interactive hero: stamp, footprints, criminal investigation *)",
+      "Bash(git commit -m 'Replace emoji stamp with flat 2D SVG carrot graphic *)",
+      "Bash(gh auth *)",
+      "Bash(gh repo *)",
+      "Bash(git remote *)",
+      "Bash(git push *)",
+      "Bash(gh api *)",
+      "Bash(git commit -m 'Catch reveal: English label only, remove subtitle *)",
+      "Bash(git commit -m 'Catch label: Criminal Caught! with exclamation *)"
+    ]
+  }
+}

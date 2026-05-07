@@ -3,19 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CARROT. — ZPD Official Stationery</title>
+  <title>BUDDYGUARD.</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/riso.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/hero-interactive.css">
+  <style>
+    html, body { height: 100%; overflow: hidden; }
+  </style>
 </head>
 <body>
 
   <!-- ── NAV ────────────────────────────────────────── -->
   <nav class="nav">
-    <a href="index.html" class="nav-logo">CARROT.</a>
-    <a href="cart.html" class="nav-cart">🛒</a>
+    <a href="index.html" class="nav-logo">BUDDYGUARD.</a>
   </nav>
 
   <!-- ── HERO: interactive stamp + investigation ── -->
@@ -81,36 +83,6 @@
 
   </section>
 
-  <!-- ── 4-COLOR STRIP ──────────────────────────────── -->
-  <div class="color-strip"></div>
-
-  <!-- ── LINEUP ─────────────────────────────────────── -->
-  <section class="products-section" id="lineup">
-    <div style="padding:0 var(--gap-lg) var(--gap-lg);">
-      <div class="section-label">Product Lineup</div>
-      <h2 class="section-title">04 Items.<br>08 Functions.</h2>
-    </div>
-
-    <!-- Conveyor belt — no buttons, auto-scrolls continuously -->
-    <div class="carousel-container">
-      <div class="carousel-track" id="carousel-track">
-        <!-- rendered by products.js — cards doubled for seamless loop -->
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ── FOOTER ─────────────────────────────────────── -->
-  <div class="color-strip"></div>
-  <footer>
-    <span>© 2025 CARROT.</span>
-    <span>Stationery by day. Equipment when needed.</span>
-    <span>Zootopia · Est. 2025</span>
-  </footer>
-
-  <script src="js/products.js"></script>
-  <script>renderProductCards('carousel-track');</script>
-  <script src="js/carousel.js"></script>
   <script src="js/hero-interactive.js"></script>
 
 </body>
