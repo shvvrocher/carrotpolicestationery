@@ -40,9 +40,7 @@ body {
   justify-content: space-between;
   padding: 18px 40px;
   /* semi-transparent cream so blobs show through faintly */
-  background: rgba(244, 237, 216, 0.88);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: #FFF0E7;
   border-bottom: 1.5px solid rgba(24,16,10,0.10);
 }
 
