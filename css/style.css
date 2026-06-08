@@ -41,7 +41,6 @@ body {
   padding: 18px 40px;
   /* semi-transparent cream so blobs show through faintly */
   background: #FFF0E7;
-  border-bottom: 1.5px solid rgba(24,16,10,0.10);
 }
 
 .nav-logo {
@@ -50,6 +49,7 @@ body {
   letter-spacing: -0.03em;
   text-decoration: none;
   color: var(--ink);
+  opacity: 0.45;
 }
 
 .nav-links {
