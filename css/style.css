@@ -50,6 +50,7 @@ body {
   text-decoration: none;
   color: var(--ink);
   opacity: 0.45;
+  margin-top: 8px;
 }
 
 .nav-links {
@@ -161,7 +162,7 @@ body {
 
 .hero-tagline {
   position: absolute;
-  bottom: 9vh;
+  bottom: 5vh;
   right: 4vw;
   font-size: 11px;
   font-weight: 500;
